@@ -35,11 +35,8 @@ public class ArticleService {
     }
 
     public Article getArticleById(Long id) {
-        if (articleRepository.existsById(id)) {
-            return articleRepository.getById(id);
-        } else {
-            return null;
-        }
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Article with the given id does not exist."));
     }
 
     public Article createArticle(ArticleRequest articleRequest) {
@@ -57,8 +54,8 @@ public class ArticleService {
     }
 
     public Article updateArticle(Long id, ArticleRequest articleRequest) {
-        if (!articleRepository.existsById(id)){
-            throw new IllegalArgumentException("Article with the given id already exists.");
+        if (!articleRepository.existsById(id)) {
+            throw new IllegalArgumentException("Article with the given id does not exist.");
         }
 
         if (!topicRepository.existsById(articleRequest.getTopicId())) {
@@ -74,9 +71,9 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public Long deleteArticle(Long id){
-        if (!articleRepository.existsById(id)){
-            throw new IllegalArgumentException("Article with the given id already exists.");
+    public Long deleteArticle(Long id) {
+        if (!articleRepository.existsById(id)) {
+            throw new IllegalArgumentException("Article with the given id does not exist.");
         }
 
         articleRepository.deleteById(id);

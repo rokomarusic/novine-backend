@@ -1,7 +1,11 @@
 package is.projekt.is.service;
 
+import is.projekt.is.exception.NotFoundException;
 import is.projekt.is.mapper.ArticleRequestMapper;
 import is.projekt.is.model.Article;
+import is.projekt.is.model.Content;
+import is.projekt.is.model.Employee;
+import is.projekt.is.model.Topic;
 import is.projekt.is.repository.ArticleRepository;
 import is.projekt.is.repository.ContentRepository;
 import is.projekt.is.repository.EmployeeRepository;
@@ -36,48 +40,72 @@ public class ArticleService {
 
     public Article getArticleById(Long id) {
         return articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article with the given id does not exist."));
+                .orElseThrow(() -> new NotFoundException("Article with the given id does not exist."));
     }
 
     public Article createArticle(ArticleRequest articleRequest) {
         if (!topicRepository.existsById(articleRequest.getTopicId())) {
-            throw new IllegalArgumentException("Topic with the given id does not exist.");
+            throw new NotFoundException("Topic with the given id does not exist.");
         }
 
         if (!employeeRepository.existsById(articleRequest.getEmployeeId())) {
-            throw new IllegalArgumentException("Employee with the given id does not exist.");
+            throw new NotFoundException("Employee with the given id does not exist.");
         }
 
-        Article article = articleRequestMapper.map(articleRequest, null);
+        Content content = saveContent(articleRequest, null);
+        Article article = articleRequestMapper.map(articleRequest, content.getId());
 
-        return articleRepository.save(article);
+        article = articleRepository.save(article);
+        article.setContent(content);
+        return article;
     }
 
     public Article updateArticle(Long id, ArticleRequest articleRequest) {
         if (!articleRepository.existsById(id)) {
-            throw new IllegalArgumentException("Article with the given id does not exist.");
+            throw new NotFoundException("Article with the given id does not exist.");
         }
 
-        if (!topicRepository.existsById(articleRequest.getTopicId())) {
-            throw new IllegalArgumentException("Topic with the given id does not exist.");
+        if (articleRequest.getTopicId() != null && !topicRepository.existsById(articleRequest.getTopicId())) {
+            throw new NotFoundException("Topic with the given id does not exist.");
         }
 
         if (!employeeRepository.existsById(articleRequest.getEmployeeId())) {
-            throw new IllegalArgumentException("Employee with the given id does not exist.");
+            throw new NotFoundException("Employee with the given id does not exist.");
         }
 
+        Content content = saveContent(articleRequest, id);
         Article article = articleRequestMapper.map(articleRequest, id);
 
-        return articleRepository.save(article);
+        article = articleRepository.save(article);
+        article.setContent(content);
+        return article;
     }
 
     public Long deleteArticle(Long id) {
         if (!articleRepository.existsById(id)) {
-            throw new IllegalArgumentException("Article with the given id does not exist.");
+            throw new NotFoundException("Article with the given id does not exist.");
         }
 
         articleRepository.deleteById(id);
         contentRepository.deleteById(id);
         return id;
+    }
+
+    private Content saveContent(ArticleRequest articleRequest, Long id) {
+        Content content = new Content();
+        Employee employee = new Employee();
+        employee.setId(articleRequest.getEmployeeId());
+        Topic topic = new Topic();
+        topic.setId(articleRequest.getTopicId());
+        if (id != null) {
+            content.setId(id);
+        }
+        content.setDate(articleRequest.getDate());
+        content.setImage(articleRequest.getImage());
+        content.setText(articleRequest.getText());
+        content.setName(articleRequest.getName());
+        content.setEmployee(employee);
+        content.setTopic(topic);
+        return contentRepository.save(content);
     }
 }

@@ -20,7 +20,9 @@ public class ArticleResponseMapper {
 
     public ArticleResponse map(Article article){
         ArticleResponse response = new ArticleResponse();
-        response.setTopicResponse(topicResponseMapper.map(article.getContent().getTopic()));
+        if(article.getContent().getTopic() != null){
+            response.setTopicResponse(topicResponseMapper.map(article.getContent().getTopic()));
+        }
         response.setEmployeeId(article.getContent().getEmployee().getId());
         response.setEmployeeName(article.getContent().getEmployee().getFirstName() + " " +
                 article.getContent().getEmployee().getLastName());

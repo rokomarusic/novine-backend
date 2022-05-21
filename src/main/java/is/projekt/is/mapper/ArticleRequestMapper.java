@@ -12,33 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ArticleRequestMapper {
 
-    private final ContentRepository contentRepository;
 
     @Autowired
-    public ArticleRequestMapper(ContentRepository contentRepository) {
-        this.contentRepository = contentRepository;
+    public ArticleRequestMapper() {
     }
 
     public Article map(ArticleRequest articleRequest, Long id){
         Article article = new Article();
-        Content content = new Content();
-        Employee employee = new Employee();
-        employee.setId(articleRequest.getEmployeeId());
-        Topic topic = new Topic();
-        topic.setId(articleRequest.getTopicId());
-        if(id != null){
-            content.setId(id);
-        }
-        content.setDate(articleRequest.getDate());
-        content.setImage(articleRequest.getImage());
-        content.setText(articleRequest.getText());
-        content.setName(articleRequest.getName());
-        content.setEmployee(employee);
-        content.setTopic(topic);
-        content = contentRepository.save(content);
-        //article.setContent(content);
         article.setKeywords(articleRequest.getKeywords());
-        article.setId(content.getId());
+        article.setId(id);
 
         return article;
     }

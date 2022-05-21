@@ -1,6 +1,7 @@
 package is.projekt.is.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="kategorija")
@@ -16,6 +17,13 @@ public class Topic {
 
     @Column(name="kratica")
     private String shortName;
+
+    @OneToMany(
+            mappedBy = "topic",
+            cascade = CascadeType.ALL,
+            orphanRemoval = false
+    )
+    private List<Content> contentList;
 
     public Long getId() {
         return id;
@@ -39,5 +47,13 @@ public class Topic {
 
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    public List<Content> getContentList() {
+        return contentList;
+    }
+
+    public void setContentList(List<Content> contentList) {
+        this.contentList = contentList;
     }
 }

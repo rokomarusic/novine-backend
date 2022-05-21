@@ -29,7 +29,7 @@ public class Content {
     @JoinColumn(name = "zaposlenik_id", referencedColumnName = "id")
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="kategorija_id", referencedColumnName = "id")
     private Topic topic;
 

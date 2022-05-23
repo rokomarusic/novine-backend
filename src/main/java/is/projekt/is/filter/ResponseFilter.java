@@ -22,6 +22,9 @@ public class ResponseFilter implements javax.servlet.Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Content-Type", "application/json");
         httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+        //httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         chain.doFilter(request, httpServletResponse);
     }
 

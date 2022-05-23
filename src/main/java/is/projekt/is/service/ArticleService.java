@@ -92,6 +92,10 @@ public class ArticleService {
         return id;
     }
 
+    public List<Article> getArticleLike(String name){
+        return articleRepository.getArticleByContentNameContainingIgnoreCase(name);
+    }
+
     private Content saveContent(ArticleRequest articleRequest, Long id) {
         Content content = new Content();
         Employee employee = new Employee();

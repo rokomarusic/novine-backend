@@ -10,4 +10,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> getArticleByContent_Employee_Id(Long id);
+
+    List<Article> getArticleByContentNameContainingIgnoreCase(String name);
 }

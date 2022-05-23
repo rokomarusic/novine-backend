@@ -34,6 +34,11 @@ public class ArticleController {
         return ResponseEntity.ok(articleResponseMapper.map(articleService.getArticleById(id)));
     }
 
+    @GetMapping("/like/{name}")
+    public ResponseEntity<List<ArticleResponse>> getArticlesLike(@PathVariable String name){
+        return ResponseEntity.ok(articleResponseMapper.map(articleService.getArticleLike(name)));
+    }
+
     @PostMapping
     public ResponseEntity<ArticleResponse> createArticle(@RequestBody @Valid ArticleRequest articleRequest){
         return ResponseEntity.ok(articleResponseMapper.map(articleService.createArticle(articleRequest)));

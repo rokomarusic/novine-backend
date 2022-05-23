@@ -14,6 +14,7 @@ import is.projekt.is.request.ArticleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -43,7 +44,7 @@ public class ArticleService {
                 .orElseThrow(() -> new NotFoundException("Article with the given id does not exist."));
     }
 
-    public Article createArticle(ArticleRequest articleRequest) {
+    public Article createArticle(@Valid ArticleRequest articleRequest) {
         if (!topicRepository.existsById(articleRequest.getTopicId())) {
             throw new NotFoundException("Topic with the given id does not exist.");
         }
@@ -60,7 +61,7 @@ public class ArticleService {
         return article;
     }
 
-    public Article updateArticle(Long id, ArticleRequest articleRequest) {
+    public Article updateArticle(Long id, @Valid ArticleRequest articleRequest) {
         if (!articleRepository.existsById(id)) {
             throw new NotFoundException("Article with the given id does not exist.");
         }

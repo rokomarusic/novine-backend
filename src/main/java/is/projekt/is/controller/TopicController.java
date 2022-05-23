@@ -5,8 +5,10 @@ import is.projekt.is.request.TopicRequest;
 import is.projekt.is.response.TopicResponse;
 import is.projekt.is.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,27 +25,27 @@ public class TopicController {
     }
 
     @GetMapping
-    public List<TopicResponse> getAllTopics(){
-        return topicResponseMapper.map(topicService.getAllTopics());
+    public ResponseEntity<List<TopicResponse>> getAllTopics(){
+        return ResponseEntity.ok(topicResponseMapper.map(topicService.getAllTopics()));
     }
 
     @GetMapping("/{id}")
-    public TopicResponse getTopicById(@PathVariable Long id){
-        return topicResponseMapper.map(topicService.getTopicById(id));
+    public ResponseEntity<TopicResponse> getTopicById(@PathVariable Long id){
+        return ResponseEntity.ok(topicResponseMapper.map(topicService.getTopicById(id)));
     }
 
     @PostMapping
-    public TopicResponse createTopic(@RequestBody TopicRequest topicRequest){
-        return topicResponseMapper.map(topicService.createTopic(topicRequest));
+    public ResponseEntity<TopicResponse> createTopic(@RequestBody @Valid TopicRequest topicRequest){
+        return ResponseEntity.ok(topicResponseMapper.map(topicService.createTopic(topicRequest)));
     }
 
     @PutMapping("/{id}")
-    public TopicResponse updateTopic(@PathVariable Long id, @RequestBody TopicRequest topicRequest){
-        return topicResponseMapper.map(topicService.updateTopic(id, topicRequest));
+    public ResponseEntity<TopicResponse> updateTopic(@PathVariable Long id, @RequestBody TopicRequest topicRequest){
+        return ResponseEntity.ok(topicResponseMapper.map(topicService.updateTopic(id, topicRequest)));
     }
 
     @DeleteMapping("/{id}")
-    public Long deleteTopic(@PathVariable Long id){
-        return topicService.deleteTopic(id);
+    public ResponseEntity<Long> deleteTopic(@PathVariable Long id){
+        return ResponseEntity.ok(topicService.deleteTopic(id));
     }
 }

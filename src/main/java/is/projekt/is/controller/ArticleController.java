@@ -5,8 +5,10 @@ import is.projekt.is.request.ArticleRequest;
 import is.projekt.is.response.ArticleResponse;
 import is.projekt.is.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,27 +25,27 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<ArticleResponse> getAllArticles(){
-        return articleResponseMapper.map(articleService.getAllArticles());
+    public ResponseEntity<List<ArticleResponse>> getAllArticles(){
+        return ResponseEntity.ok(articleResponseMapper.map(articleService.getAllArticles()));
     }
 
     @GetMapping("/{id}")
-    public ArticleResponse getArticleById(@PathVariable Long id){
-        return articleResponseMapper.map(articleService.getArticleById(id));
+    public ResponseEntity<ArticleResponse> getArticleById(@PathVariable Long id){
+        return ResponseEntity.ok(articleResponseMapper.map(articleService.getArticleById(id)));
     }
 
     @PostMapping
-    public ArticleResponse createArticle(@RequestBody ArticleRequest articleRequest){
-        return articleResponseMapper.map(articleService.createArticle(articleRequest));
+    public ResponseEntity<ArticleResponse> createArticle(@RequestBody @Valid ArticleRequest articleRequest){
+        return ResponseEntity.ok(articleResponseMapper.map(articleService.createArticle(articleRequest)));
     }
 
     @PutMapping("/{id}")
-    public ArticleResponse updateArticle(@PathVariable Long id, @RequestBody ArticleRequest articleRequest){
-        return articleResponseMapper.map(articleService.updateArticle(id, articleRequest));
+    public ResponseEntity<ArticleResponse> updateArticle(@PathVariable Long id, @RequestBody ArticleRequest articleRequest){
+        return ResponseEntity.ok(articleResponseMapper.map(articleService.updateArticle(id, articleRequest)));
     }
 
     @DeleteMapping("/{id}")
-    public Long deleteArticle(@PathVariable Long id){
-        return articleService.deleteArticle(id);
+    public ResponseEntity<Long> deleteArticle(@PathVariable Long id){
+        return ResponseEntity.ok(articleService.deleteArticle(id));
     }
 }

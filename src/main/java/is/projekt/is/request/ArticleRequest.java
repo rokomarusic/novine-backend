@@ -1,11 +1,18 @@
 package is.projekt.is.request;
 
+import is.projekt.is.validation.ArticleKeywordsValid;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@ArticleKeywordsValid
 public class ArticleRequest {
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String text;
 
     private String image;
@@ -16,6 +23,7 @@ public class ArticleRequest {
 
     private Long topicId;
 
+    @NotNull
     private Long employeeId;
 
     public String getName() {

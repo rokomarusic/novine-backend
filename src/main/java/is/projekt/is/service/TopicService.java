@@ -9,6 +9,7 @@ import is.projekt.is.repository.TopicRepository;
 import is.projekt.is.request.TopicRequest;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class TopicService {
                 .orElseThrow(() -> new NotFoundException("Topic with the given id does not exist."));
     }
 
-    public Topic createTopic(TopicRequest topicRequest) {
+    public Topic createTopic(@Valid TopicRequest topicRequest) {
         if(topicRepository.existsByName(topicRequest.getName())){
             throw  new AlreadyExistsException("Topic with the given name already exists");
         }
@@ -40,7 +41,7 @@ public class TopicService {
         return topicRepository.save(topicRequestMapper.map(topicRequest, null));
     }
 
-    public Topic updateTopic(Long id, TopicRequest topicRequest) {
+    public Topic updateTopic(Long id, @Valid TopicRequest topicRequest) {
         if (!topicRepository.existsById(id)) {
             throw new NotFoundException("Topic with the given id does not exist.");
         }

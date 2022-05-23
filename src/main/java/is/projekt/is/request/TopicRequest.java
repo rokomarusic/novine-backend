@@ -1,10 +1,13 @@
 package is.projekt.is.request;
 
+import javax.validation.constraints.NotBlank;
+
 public class TopicRequest {
 
-
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String shortName;
 
     public String getName() {

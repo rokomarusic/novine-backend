@@ -7,6 +7,7 @@ import is.projekt.is.model.Topic;
 import is.projekt.is.repository.ContentRepository;
 import is.projekt.is.repository.EmployeeRepository;
 import is.projekt.is.repository.TopicRepository;
+import is.projekt.is.request.ArticleRequest;
 import is.projekt.is.response.ArticleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -59,5 +60,20 @@ public class ArticleResponseMapper {
 
     public List<ArticleResponse> map(List<Article> articles){
         return articles.stream().map(this::map).collect(Collectors.toList());
+    }
+
+    public static ArticleRequest generateDefaultArticleRequest(){
+        return generateArticle("TEST 1", "TEST TEXT 1", 1L, 1L, "k1,k2,k3");
+    }
+
+    public static ArticleRequest generateArticle(String name, String text, Long employeeId, Long topicId, String keywords){
+        ArticleRequest articleRequest = new ArticleRequest();
+        articleRequest.setName(name);
+        articleRequest.setEmployeeId(employeeId);
+        articleRequest.setEmployeeId(topicId);
+        articleRequest.setKeywords(keywords);
+        articleRequest.setText(text);
+
+        return articleRequest;
     }
 }

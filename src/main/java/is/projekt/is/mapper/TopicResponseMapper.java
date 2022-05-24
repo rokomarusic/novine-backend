@@ -12,9 +12,11 @@ public class TopicResponseMapper {
 
     public TopicResponse map(Topic topic){
         TopicResponse response = new TopicResponse();
-        response.setId(topic.getId());
-        response.setName(topic.getName());
-        response.setShortName(topic.getShortName());
+        if(topic != null){
+            response.setId(topic.getId());
+            response.setName(topic.getName());
+            response.setShortName(topic.getShortName());
+        }
 
         return response;
     }

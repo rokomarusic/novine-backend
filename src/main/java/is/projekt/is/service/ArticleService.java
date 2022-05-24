@@ -45,7 +45,7 @@ public class ArticleService {
     }
 
     public Article createArticle(@Valid ArticleRequest articleRequest) {
-        if (!topicRepository.existsById(articleRequest.getTopicId())) {
+        if (articleRequest.getTopicId() != null && !topicRepository.existsById(articleRequest.getTopicId())) {
             throw new NotFoundException("Topic with the given id does not exist.");
         }
 
@@ -93,15 +93,14 @@ public class ArticleService {
     }
 
     public List<Article> getArticleLike(String name){
-        return articleRepository.getArticleByContentNameContainingIgnoreCase(name);
+        return articleRepository.searchByName("%" + name + "%");
     }
 
     private Content saveContent(ArticleRequest articleRequest, Long id) {
         Content content = new Content();
         Employee employee = new Employee();
         employee.setId(articleRequest.getEmployeeId());
-        Topic topic = new Topic();
-        topic.setId(articleRequest.getTopicId());
+
         if (id != null) {
             content.setId(id);
         }
@@ -110,7 +109,12 @@ public class ArticleService {
         content.setText(articleRequest.getText());
         content.setName(articleRequest.getName());
         content.setEmployee(employee);
-        content.setTopic(topic);
+        if(articleRequest.getTopicId() != null){
+            Topic topic = new Topic();
+            topic.setId(articleRequest.getTopicId());
+            content.setTopic(topic);
+        }
+
         return contentRepository.save(content);
     }
 }

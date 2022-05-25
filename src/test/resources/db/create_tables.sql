@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS kategorija (
                                           kratica varchar
 );
 CREATE INDEX IF NOT EXISTS index_kategorija ON kategorija(id);
+CREATE SEQUENCE IF NOT EXISTS kategorija_id_seq;
+CREATE SEQUENCE IF NOT EXISTS sadrzaj_id_seq;
 
 CREATE TABLE IF NOT EXISTS odjel (
                                      id SERIAL PRIMARY KEY,

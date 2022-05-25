@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static is.projekt.is.TopicGenerator.*;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -33,10 +32,6 @@ public class TopicServiceTest {
 
     @MockBean
     private TopicRepository topicRepository;
-
-    //private static final String TOPIC_INSERTS = "classpath:db/topic_inserts.sql";
-
-    private static final Long TEST_ID = 1L;
 
     @Test
     public void getAllTopics() {
